@@ -1,0 +1,6 @@
+{
+    "scm.inputFontSize": 1,
+    "files.exclude": {
+        "**/obj": true
+    }
+}
