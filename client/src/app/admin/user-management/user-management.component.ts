@@ -45,7 +45,7 @@ export class UserManagementComponent implements OnInit {
       };
       if (rolesToUpdate) {
         this.adminService
-          .updateUserRoles(user.userName, rolesToUpdate.roles)
+          .updateUserRoles(user.username, rolesToUpdate.roles)
           .subscribe(() => {
             user.roles = [...rolesToUpdate.roles];
           });
@@ -53,7 +53,7 @@ export class UserManagementComponent implements OnInit {
     });
   }
 
-  private getRolesArray(user: User) {
+  private getRolesArray(user) {
     const roles = [];
     const userRoles = user.roles;
     const availableRoles: any[] = [

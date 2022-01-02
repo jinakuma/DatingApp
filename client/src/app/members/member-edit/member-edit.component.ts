@@ -6,6 +6,7 @@ import { Member } from 'src/app/_models/member';
 import { User } from 'src/app/_models/user';
 import { AccountService } from 'src/app/_services/account.service';
 import { MembersService } from 'src/app/_services/members.service';
+import { PresenceService } from 'src/app/_services/presence.service';
 
 @Component({
   selector: 'app-member-edit',
@@ -27,7 +28,8 @@ export class MemberEditComponent implements OnInit {
   constructor(
     private accountService: AccountService,
     private memberService: MembersService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    
   ) {
     this.accountService.currentUser$
       .pipe(take(1))
@@ -38,7 +40,7 @@ export class MemberEditComponent implements OnInit {
     this.loadMember();
   }
   loadMember() {
-    this.memberService.getMember(this.user.userName).subscribe((member) => {
+    this.memberService.getMember(this.user.username).subscribe((member) => {
       this.member = member;
     });
   }
