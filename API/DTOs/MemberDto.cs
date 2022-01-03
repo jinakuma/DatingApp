@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using API.Entities;
+
 
 namespace API.DTOs
 {
@@ -21,5 +21,6 @@ namespace API.DTOs
         public string City { get; set; }
         public string Country { get; set; }
         public ICollection<PhotoDto> Photos { get; set; }
+       
     }
 }
