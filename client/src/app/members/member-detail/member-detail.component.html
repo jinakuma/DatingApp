@@ -1,4 +1,4 @@
-<div class="row" *ngIf="member">
+<div class="row">
   <div class="col-4">
     <div class="card">
       <img
@@ -9,7 +9,7 @@
       <div class="card-body">
         <div
           class="mb-2"
-          *ngIf="(presence.onlineUsers$ | async).includes(member.userName)"
+          *ngIf="(presence.onlineUsers$ | async).includes(member.username)"
         >
           <i class="fa fa-user-circle text-success"></i> Online now
         </div>
@@ -22,16 +22,16 @@
           <p>{{ member.age }}</p>
         </div>
         <div>
-          <strong>Last active:</strong>
-          <p>{{ member.lastActiveDateTime | timeago }}</p>
+          <strong>Last Active:</strong>
+          <p>{{ member.lastActive | timeago }}</p>
         </div>
         <div>
           <strong>Member since:</strong>
-          <p>{{ member.createdDateTime | date: "dd MMM YYYY" }}</p>
+          <p>{{ member.created | date: "dd MMM yyyy" }}</p>
         </div>
       </div>
       <div class="card-footer">
-        <div class="btn btn-group d-flex">
+        <div class="btn-group d-flex">
           <button class="btn btn-primary">Like</button>
           <button (click)="selectTab(3)" class="btn btn-success">
             Message
@@ -40,6 +40,7 @@
       </div>
     </div>
   </div>
+
   <div class="col-8">
     <tabset class="member-tabset" #memberTabs>
       <tab
@@ -48,11 +49,11 @@
       >
         <h4>Description</h4>
         <p>{{ member.introduction }}</p>
-        <h4>Looking For</h4>
+        <h4>Looking for</h4>
         <p>{{ member.lookingFor }}</p>
       </tab>
-      <tab heading="Interests">
-        <h4>Interest</h4>
+      <tab heading="Interests" (selectTab)="onTabActivated($event)">
+        <h4>Interests</h4>
         <p>{{ member.interests }}</p>
       </tab>
       <tab heading="Photos" (selectTab)="onTabActivated($event)">
@@ -63,10 +64,7 @@
         ></ngx-gallery>
       </tab>
       <tab heading="Messages" (selectTab)="onTabActivated($event)">
-        <app-member-messages
-         
-          [username]="member.username"
-        ></app-member-messages>
+        <app-member-messages [username]="member.username"></app-member-messages>
       </tab>
     </tabset>
   </div>

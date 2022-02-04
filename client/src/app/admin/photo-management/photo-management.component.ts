@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Photo } from 'src/app/_models/Photo';
+import { Photo } from 'src/app/_models/photo';
 import { AdminService } from 'src/app/_services/admin.service';
 
 @Component({

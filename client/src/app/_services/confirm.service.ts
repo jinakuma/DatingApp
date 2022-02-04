@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { Observable, Subscription } from 'rxjs';
-import { subscribeOn } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { ConfirmDialogComponent } from '../modals/confirm-dialog/confirm-dialog.component';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ConfirmService {
-  bsModalRef: BsModalRef;
+  bsModelRef: BsModalRef;
 
   constructor(private modalService: BsModalService) {}
 
@@ -26,16 +25,18 @@ export class ConfirmService {
         btnCancelText,
       },
     };
-    this.bsModalRef = this.modalService.show(ConfirmDialogComponent, config);
+    this.bsModelRef = this.modalService.show(ConfirmDialogComponent, config);
+
     return new Observable<boolean>(this.getResult());
   }
 
   private getResult() {
     return (observer) => {
-      const subscription = this.bsModalRef.onHidden.subscribe(() => {
-        observer.next(this.bsModalRef.content.result);
+      const subscription = this.bsModelRef.onHidden.subscribe(() => {
+        observer.next(this.bsModelRef.content.result);
         observer.complete();
       });
+
       return {
         unsubscribe() {
           subscription.unsubscribe();

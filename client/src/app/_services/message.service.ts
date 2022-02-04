@@ -35,9 +35,11 @@ export class MessageService {
       .start()
       .catch((error) => console.log(error))
       .finally(() => this.busyService.idle());
+
     this.hubConnection.on('ReceiveMessageThread', (messages) => {
       this.messageThreadSource.next(messages);
     });
+
     this.hubConnection.on('NewMessage', (message) => {
       this.messageThread$.pipe(take(1)).subscribe((messages) => {
         this.messageThreadSource.next([...messages, message]);
@@ -83,10 +85,7 @@ export class MessageService {
 
   async sendMessage(username: string, content: string) {
     return this.hubConnection
-      .invoke('SendMessage', {
-        recipientUsername: username,
-        content,
-      })
+      .invoke('SendMessage', { recipientUsername: username, content })
       .catch((error) => console.log(error));
   }
 

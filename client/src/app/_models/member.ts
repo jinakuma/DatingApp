@@ -1,13 +1,13 @@
-import { Photo } from './Photo';
+import { Photo } from './photo';
 
 export interface Member {
   id: number;
-  userName: string;
+  username: string;
   photoUrl: string;
   age: number;
   knownAs: string;
-  createdDateTime: Date;
-  lastActiveDateTime: Date;
+  created: Date;
+  lastActive: Date;
   gender: string;
   introduction: string;
   lookingFor: string;

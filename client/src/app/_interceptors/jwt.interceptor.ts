@@ -11,7 +11,7 @@ import { User } from '../_models/user';
 import { take } from 'rxjs/operators';
 
 @Injectable()
-export class JtwInterceptor implements HttpInterceptor {
+export class JwtInterceptor implements HttpInterceptor {
   constructor(private accountService: AccountService) {}
 
   intercept(
@@ -29,7 +29,8 @@ export class JtwInterceptor implements HttpInterceptor {
           Authorization: `Bearer ${currentUser.token}`,
         },
       });
-    } 
+    }
+
     return next.handle(request);
   }
 }

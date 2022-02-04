@@ -1,21 +1,14 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
-import { map, take } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Member } from '../_models/member';
-import { User } from '../_models/user';
+import { of, pipe } from 'rxjs';
+import { map, take } from 'rxjs/operators';
+import { PaginatedResult } from '../_models/pagination';
 import { UserParams } from '../_models/userParams';
 import { AccountService } from './account.service';
+import { User } from '../_models/user';
 import { getPaginatedResult, getPaginationHeaders } from './paginationHelper';
-
-// const httpOptions = {
-//   headers: new HttpHeaders({
-//     Authorization: localStorage.getItem('user')
-//       ? 'Bearer ' + JSON.parse(localStorage.getItem('user')).token
-//       : '',
-//   }),
-// };
 
 @Injectable({
   providedIn: 'root',
@@ -55,14 +48,17 @@ export class MembersService {
     if (response) {
       return of(response);
     }
+
     let params = getPaginationHeaders(
       userParams.pageNumber,
       userParams.pageSize
     );
+
     params = params.append('minAge', userParams.minAge.toString());
     params = params.append('maxAge', userParams.maxAge.toString());
     params = params.append('gender', userParams.gender);
     params = params.append('orderBy', userParams.orderBy);
+
     return getPaginatedResult<Member[]>(
       this.baseUrl + 'users',
       params,
@@ -77,8 +73,12 @@ export class MembersService {
 
   getMember(username: string) {
     const member = [...this.memberCache.values()]
-      .reduce((arr, element) => arr.concat(element.result), [])
-      .find((member: Member) => member.userName === username);
+      .reduce((arr, elem) => arr.concat(elem.result), [])
+      .find((member: Member) => member.username === username);
+
+    if (member) {
+      return of(member);
+    }
     return this.http.get<Member>(this.baseUrl + 'users/' + username);
   }
 
@@ -103,11 +103,11 @@ export class MembersService {
     return this.http.post(this.baseUrl + 'likes/' + username, {});
   }
 
-  getLikes(predicate: string, pageNumber: number, pageSize: number) {
+  getLikes(predicate: string, pageNumber, pageSize) {
     let params = getPaginationHeaders(pageNumber, pageSize);
     params = params.append('predicate', predicate);
     return getPaginatedResult<Partial<Member[]>>(
-      this.baseUrl + 'likes?predicate=' + predicate,
+      this.baseUrl + 'likes',
       params,
       this.http
     );
