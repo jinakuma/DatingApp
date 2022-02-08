@@ -6,7 +6,7 @@
         {
             
         }
-        public Connection(string username, string connectionId)
+        public Connection( string connectionId, string username)
         {
             Username = username;
             ConnectionId = connectionId;

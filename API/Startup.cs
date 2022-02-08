@@ -35,7 +35,10 @@ namespace API
             services.AddCors();
 
             services.AddIdentityServices(_config);
-            services.AddSignalR();
+            services.AddSignalR(o=>
+            {
+                o.EnableDetailedErrors = true;
+            });
 
         }
 
@@ -49,7 +52,7 @@ namespace API
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
             app.UseRouting();
 

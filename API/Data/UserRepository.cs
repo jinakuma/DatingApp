@@ -34,7 +34,7 @@ namespace API.Data
             return await query.FirstOrDefaultAsync();
         }
 
-        public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
+        public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams )
         {
             var query = _context.Users.AsQueryable();
 
@@ -62,15 +62,6 @@ namespace API.Data
             return await _context.Users.FindAsync(id);
         }
 
-        public async Task<AppUser> GetUserByPhotoId(int photoId)
-        {
-            return await _context.Users
-                .Include(p => p.Photos)
-                .IgnoreQueryFilters()
-                .Where(p => p.Photos.Any(p => p.Id == photoId))
-                .FirstOrDefaultAsync();
-        }
-
         public async Task<AppUser> GetUserByUsernameAsync(string username)
         {
             return await _context.Users
@@ -95,6 +86,15 @@ namespace API.Data
         public void Update(AppUser user)
         {
             _context.Entry(user).State = EntityState.Modified;
+        }
+
+        public async Task<AppUser> GetUserByPhotoId(int photoId)
+        {
+            return await _context.Users
+            .Include(p => p.Photos)
+            .IgnoreQueryFilters()
+            .Where(p => p.Photos.Any(p => p.Id == photoId))
+            .FirstOrDefaultAsync();
         }
     }
 }
